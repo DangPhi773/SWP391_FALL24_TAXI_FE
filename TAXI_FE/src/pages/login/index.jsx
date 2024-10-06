@@ -4,9 +4,13 @@ import { Button, Form, Input } from 'antd';
 import { getAuth, signInWithPopup } from 'firebase/auth';
 import { googleProvider } from '../../config/firebase';
 import { GoogleAuthProvider } from 'firebase/auth/web-extension';
+import { Link, useNavigate } from 'react-router-dom';
+import api from '../../config/axiox';
+import { toast } from 'react-toastify';
 
 function LoginPage() {
 
+const navigate = useNavigate();
 const handleLoginGoogle = () => {
     const auth = getAuth();
 signInWithPopup(auth, googleProvider)
@@ -32,18 +36,31 @@ signInWithPopup(auth, googleProvider)
   });
 }
 
-const handleLogin = () => {
+const handleLogin = async (values) => {
+    try {
+        const response = await api.post("login", values);
+        console.log(response);
+        const {role} = response.data;
 
-}
+        if(role === "ADMIN"){
+            navigate("/dashboard");
+        }
+
+    } catch (error) {
+        toast.error(error.response.data);
+    }
+};
 
   return <AuthenTemplate>
     <Form labelCol={{
         span: 24,
-    }}>
-        <Form.Item label="Username" name="username" rules={[
+    }}
+    onFinish={handleLogin}
+    >
+        <Form.Item label="Username or Email" name="email" rules={[
             {
                 required:true,
-                message:"Please input student's name",
+                message:"Please input student's email",
             },
         ]}>
             <Input/>
@@ -57,8 +74,9 @@ const handleLogin = () => {
         >
             <Input.Password/>
         </Form.Item>
+        <div><Link to="/register"> Dont have account? Register new account </Link></div>
 
-        <Button>Login</Button>
+        <Button type="primary" htmlType="submit">Login</Button>
 
         <Button onClick={handleLoginGoogle}>Login by Google</Button>
 
