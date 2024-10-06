@@ -3,11 +3,13 @@ import { useForm } from "antd/es/form/Form";
 import Title from "antd/es/skeleton/Title";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 function TaxiManagement() {
   const [students, setStudents] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-    const[form] =useForm();
+  const [submitting, setSubmitting] = useState(false);
+  const [form] = useForm();
 
   const api = "https://66e47912d2405277ed146bcb.mockapi.io/Student";
 
@@ -50,8 +52,22 @@ function TaxiManagement() {
   const handleCloseModal = () => {
     setOpenModal(false);
   }
-  const handleSubmitStudent = () => {
+  const handleSubmitStudent = async (student) => {
+    console.log(student);
+    try {
+        setSubmitting(true);
+        const response = await axios.post(api, student)
+        toast.success('Successfully')
+        setOpenModal(false);
+        
+        form.resetFields();
 
+        fetchStudent()
+    }catch (error) {
+        toast.error(error);
+    }finally{
+        setSubmitting(false);
+    }
   }
 
   return (
@@ -59,8 +75,8 @@ function TaxiManagement() {
       <h1>Taxi Management</h1>
         <Button onClick={handleOpenModal}>Create new student</Button>
       <Table columns={columns} dataSource={students} />
-      <Modal title="Create new student" open={openModal} onCancel={handleCloseModal}>
-        <Form onFinish={handleSubmitStudent} form={form }>
+      <Modal confirmLoading={submitting} onOk={() => form.submit()} title="Create new student" open={openModal} onCancel={handleCloseModal}>
+        <Form onFinish={handleSubmitStudent} form={form}>
             <Form.Item label="Student name" name="name" rules={[
                 {
                     required:true,
