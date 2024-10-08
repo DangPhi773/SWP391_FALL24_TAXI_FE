@@ -26,7 +26,7 @@ function App() {
       element: <Dashboard />,
       children:[
         {
-          path: "location",
+          path: "locations",
           element: <ManageLocation />
         },
         {
