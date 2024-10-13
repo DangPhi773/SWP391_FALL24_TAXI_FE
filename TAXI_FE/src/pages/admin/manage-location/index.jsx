@@ -46,7 +46,7 @@ function ManageLocation() {
   // Handle delete action
   const handleDelete = async (id) => {
     try {
-      await api.delete(`locations/${id}`);
+      await api.delete(`locations/{id}`, id);
       toast.success("Successfully deleted");
       fetchData(); // Reload data after deletion
     } catch (error) {

@@ -6,9 +6,10 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { PlusOutlined } from '@ant-design/icons';
 import uploadFile from "../../../utils/file";
+import api from "../../../config/axiox";
 
 
-function TaxiManagement() {
+function ManageStaff() {
   const [students, setStudents] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -17,7 +18,6 @@ function TaxiManagement() {
   const [previewImage, setPreviewImage] = useState('');
   const [fileList, setFileList] = useState([]);
 
-  const api = "https://66e47912d2405277ed146bcb.mockapi.io/Student";
 
   const fetchStudent = async () => {
     const response = await axios.get(api);
@@ -152,12 +152,12 @@ function TaxiManagement() {
       <h1>Taxi Management</h1>
         <Button onClick={handleOpenModal}>Create new student</Button>
       <Table columns={columns} dataSource={students} />
-      <Modal confirmLoading={submitting} onOk={() => form.submit()} title="Create new student" open={openModal} onCancel={handleCloseModal}>
+      <Modal confirmLoading={submitting} onOk={() => form.submit()} title="Create new staff" open={openModal} onCancel={handleCloseModal}>
         <Form onFinish={handleSubmitStudent} form={form}>
-            <Form.Item label="Student name" name="name" rules={[
+            <Form.Item label="Staff's name" name="name" rules={[
                 {
                     required:true,
-                    message:"Please input student's name",
+                    message:"Please input Staff's name",
                 }
 
             ]}
@@ -224,4 +224,4 @@ function TaxiManagement() {
   );
 }
 
-export default TaxiManagement;
+export default ManageStaff;

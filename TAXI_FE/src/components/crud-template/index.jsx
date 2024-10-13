@@ -1,7 +1,7 @@
 import { Button, Form, Input, Modal, Popconfirm, Table } from 'antd';
 import React, { useEffect, useState } from 'react'
-import api from '../../../config/axiox';
 import { toast } from 'react-toastify';
+import api from '../../config/axiox';
 
 function CRUDTemplate({columns, formItems, path }) {
 
@@ -44,8 +44,7 @@ function CRUDTemplate({columns, formItems, path }) {
             const response = await api.get(path);
             setDatas(response.data);
         } catch (error) {
-            toast.error(error.response.data);
-            
+            toast.error(error.response.data);           
         }
 
     };
@@ -83,7 +82,7 @@ function CRUDTemplate({columns, formItems, path }) {
 
     useEffect(() => {
         fetchData();
-    },[]);
+    }, []);
 
 //     const columns = [
 //     {

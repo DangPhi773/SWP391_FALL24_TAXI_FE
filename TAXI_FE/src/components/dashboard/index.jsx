@@ -20,6 +20,9 @@ function getItem(label, key, icon, children) {
 const items = [
     getItem("Manage Location", 'locations', <PieChartOutlined />),
     getItem("Manage Trip", 'trip', <PieChartOutlined />),
+    getItem("Manage Complaint", 'complaint', <PieChartOutlined />),
+    getItem("Manage Staff", 'staff', <PieChartOutlined />),
+
 ];
 
 
@@ -76,7 +79,7 @@ const Dashboard = () => {
             textAlign: 'center',
           }}
         >
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+          Booking_Taxi ©{new Date().getFullYear()} 
         </Footer>
       </Layout>
     </Layout>

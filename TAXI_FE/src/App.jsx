@@ -6,12 +6,22 @@ import HomePage from './pages/home';
 import Dashboard from './components/dashboard';
 import ManageLocation from './pages/admin/manage-location';
 import ManageTrip from './pages/admin/manage-trip';
+import ManageComplaint from './pages/admin/manage-complaint';
+import ManageStaff from './pages/admin/manage-staff';
+import Layout from './components/layout';
+
 
 function App() {
   const Router = createBrowserRouter([
     {
       path: "",
-      element: <HomePage />,
+      element: <Layout />,
+      children: [
+        {
+          path: "",
+          element: <HomePage />,
+        },
+      ],
     },
     {
       path: "login",
@@ -32,6 +42,14 @@ function App() {
         {
           path: "trip",
           element: <ManageTrip />
+        },
+        {
+          path: "complaint",
+          element: <ManageComplaint />
+        },
+        {
+          path: "staff",
+          element: <ManageStaff />
         },
       ],
     },
