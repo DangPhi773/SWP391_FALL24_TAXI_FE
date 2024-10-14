@@ -7,6 +7,7 @@ import { GoogleAuthProvider } from 'firebase/auth/web-extension';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../config/axiox';
 import { toast } from 'react-toastify';
+import './index.css';
 
 function LoginPage() {
 

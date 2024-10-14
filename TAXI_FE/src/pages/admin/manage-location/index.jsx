@@ -12,7 +12,7 @@ function ManageLocation() {
   // Fetch location data
   const fetchData = async () => {
     try {
-      const response = await api.get("locations");
+      const response = await api.get("locations/getAll");
       setDatas(response.data);
     } catch (error) {
       toast.error(error?.response?.data || "Failed to fetch data");
@@ -25,11 +25,14 @@ function ManageLocation() {
       setLoading(true);
       let response;
       if (values.locationId) {
-        // If ID exists, update the location
-        response = await api.put(`locations/${values.locationId}`, values);
+        // If locationId exists, update the location
+        response = await api.put(
+          `locations/update/${values.locationId}`,
+          values
+        ); // Pass the actual ID
       } else {
         // Otherwise, create a new location
-        response = await api.post("locations", values);
+        response = await api.post("locations/add", values);
       }
 
       toast.success("Successfully saved");
@@ -45,12 +48,19 @@ function ManageLocation() {
 
   // Handle delete action
   const handleDelete = async (id) => {
+    if (!id) {
+      toast.error("Failed to delete location: Invalid ID");
+      return;
+    }
+
     try {
-      await api.delete(`locations/{id}`, id);
-      toast.success("Successfully deleted");
-      fetchData(); // Reload data after deletion
+      await api.delete(`/locations/delete/${id}`); // Make sure the id is passed correctly
+      toast.success("Location deleted successfully");
+      fetchData(); // Reload data after deletion to reflect changes
     } catch (error) {
-      toast.error(error?.response?.data || "Failed to delete location");
+      const errorMessage =
+        error?.response?.data?.message || "Failed to delete location";
+      toast.error(errorMessage);
     }
   };
 
@@ -78,9 +88,8 @@ function ManageLocation() {
     },
     {
       title: "Action",
-      dataIndex: "id",
       key: "action",
-      render: (id, record) => (
+      render: (text, record) => (
         <>
           <Button
             type="primary"
@@ -94,7 +103,7 @@ function ManageLocation() {
           <Popconfirm
             title="Delete"
             description="Do you want to delete this location?"
-            onConfirm={() => handleDelete(id)}
+            onConfirm={() => handleDelete(record.locationId)} // Use locationId
           >
             <Button type="primary" danger>
               Delete
@@ -109,7 +118,6 @@ function ManageLocation() {
     <div>
       <Button onClick={() => setShowModal(true)}>Add</Button>
       <Table dataSource={datas} columns={columns} rowKey="locationId" />{" "}
-      {/* Set rowKey to `locationId` */}
       <Modal
         open={showModal}
         onCancel={() => setShowModal(false)}

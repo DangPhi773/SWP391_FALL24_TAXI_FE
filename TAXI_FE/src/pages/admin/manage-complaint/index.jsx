@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import FormItem from "antd/es/form/FormItem";
-import { Button, Form, Input, Modal, Table } from "antd";
+import { Button, Form, Input, Modal, Popconfirm, Table } from "antd";
 import api from "../../../config/axiox";
 import { toast } from "react-toastify";
 
@@ -24,15 +24,20 @@ function ManageComplaint() {
       setLoading(true);
       let response;
       if (values.complaintId) {
-        response = await api.put(`complaints/updateByUser/{id}`, values);
+        // If complaintId exists, update the complaint
+        response = await api.put(
+          `complaints/update/${values.complaintId}`,
+          values
+        ); // Pass the actual ID
       } else {
+        // Otherwise, create a new complaint
         response = await api.post("complaints/add", values);
       }
 
       toast.success("Successfully saved");
-      fetchData();
+      fetchData(); // Reload data
       form.resetFields();
-      setShowModal(false);
+      setShowModal(false); // Close modal
     } catch (error) {
       toast.error(error?.response?.data || "Failed to save complaint");
     } finally {
@@ -41,12 +46,19 @@ function ManageComplaint() {
   };
 
   const handleDelete = async (id) => {
+    if (!id) {
+      toast.error("Failed to delete complaint: Invalid ID");
+      return;
+    }
+
     try {
-      await api.delete(`complaints/delete/{id}`);
-      toast.success("Successfully deleted");
-      fetchData();
+      await api.delete(`/complaints/delete/${id}`); // Make sure the id is passed correctly
+      toast.success("Complaint deleted successfully");
+      fetchData(); // Reload data after deletion to reflect changes
     } catch (error) {
-      toast.error(error?.response?.data || "Failed to delete complaint");
+      const errorMessage =
+        error?.response?.data?.message || "Failed to delete complaint";
+      toast.error(errorMessage);
     }
   };
 
@@ -75,13 +87,40 @@ function ManageComplaint() {
     //   dataIndex:"submittedDate",
     //   key: "UserId",
     // },
+    {
+      title: "Action",
+      dataIndex: "id",
+      key: "action",
+      render: (id, record) => (
+        <>
+          <Button
+            type="primary"
+            onClick={() => {
+              setShowModal(true);
+              form.setFieldsValue(record); 
+            }}
+          >
+            Edit
+          </Button>
+          <Popconfirm
+            title="Delete"
+            description="Do you want to delete this complaint?"
+            onConfirm={() => handleDelete(record.complaintId)}
+          >
+            <Button type="primary" danger>
+              Delete
+            </Button>
+          </Popconfirm>
+        </>
+      ),
+    },
   ];
 
   return (
     <div>
       <Button onClick={() => setShowModal(true)}>Add</Button>
       <Table dataSource={datas} columns={columns} rowKey="complaintId" />{" "}
-      {/* Set rowKey to `locationId` */}
+      {/* Set rowKey to `complaintId` */}
       <Modal
         open={showModal}
         onCancel={() => setShowModal(false)}
@@ -94,7 +133,7 @@ function ManageComplaint() {
             <Input />
           </Form.Item>
           {/* <Form.Item
-            name="locationName"
+            name="complaintName"
             label="Name"
             rules={[
               {
