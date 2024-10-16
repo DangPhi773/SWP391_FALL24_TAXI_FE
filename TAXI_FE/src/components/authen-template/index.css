@@ -10,14 +10,14 @@
     align-items: center;
 }
 
-.authen-template__form{
-    width: 500px;
-    height: 80vh;
-    background-color: aliceblue;   
-    margin-left: 50px;
-    border-radius: 12px;
-    padding: 30px;
-}
+.authen-template__form {
+    background-color: #fff; /* Nền trắng cho form */
+    padding: 24px; /* Tạo khoảng cách giữa các thành phần và viền form */
+    border-radius: 8px; /* Bo tròn các góc */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Bóng đổ nhẹ để form nổi bật */
+    max-width: 400px; /* Giới hạn chiều rộng của form */
+    width: 100%; /* Đảm bảo form không bị nhỏ hơn */
+  }
 
 
 /* flex box */

@@ -94,13 +94,13 @@ function RegisterPage() {
   >
     <Input />
   </Form.Item>
-
-  <Link to="/login"> Already have account? Go to Login Page </Link>
+  <div className="flex gap-4 mt-4" style={{ justifyContent: 'space-between' }}>
+  <Link to="/login" style={{ marginRight: '16px'}}> Already have account? Go to Login Page </Link>
   
   <Button type="primary" htmlType="submit">
     Register
     </Button>
-
+    </div>
 </Form>
   </AuthenTemplate>
 }

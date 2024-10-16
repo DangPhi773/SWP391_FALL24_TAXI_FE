@@ -9,7 +9,7 @@ import ManageTrip from './pages/admin/manage-trip';
 import ManageComplaint from './pages/admin/manage-complaint';
 import Layout from './components/layout';
 import ManageUser from './pages/admin/manage-user';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const Router = createBrowserRouter([

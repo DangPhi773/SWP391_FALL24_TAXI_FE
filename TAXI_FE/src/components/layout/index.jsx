@@ -1,8 +1,9 @@
 
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Header from "../header";
+
 import { Footer } from "antd/es/layout/layout";
+import Header from "../Headers";
 
 function Layout() {
   return (

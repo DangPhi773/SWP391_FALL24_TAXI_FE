@@ -39,7 +39,7 @@ signInWithPopup(auth, googleProvider)
 
 const handleLogin = async (values) => {
     try {
-        const response = await api.post("login", values);
+        const response = await api.post("v1/user/login", values);
         console.log(response);
         const {role, token} = response.data;
         localStorage.setItem("token", token);
@@ -54,36 +54,61 @@ const handleLogin = async (values) => {
 };
 
   return <AuthenTemplate>
-    <Form labelCol={{
-        span: 24,
+  <Form
+    labelCol={{
+      span: 24,
     }}
     onFinish={handleLogin}
+  >
+    <div className="text-center mb-6">
+      <img src="/logo.png" alt="Logo" className="w-24 mx-auto" />
+    </div>
+
+    <Form.Item
+      label="Username or Email"
+      name="email"
+      rules={[
+        {
+          required: true,
+          message: "Please input user's email",
+        },
+      ]}
     >
-        <Form.Item label="Username or Email" name="email" rules={[
-            {
-                required:true,
-                message:"Please input student's email",
-            },
-        ]}>
-            <Input/>
-        </Form.Item>
-        <Form.Item label="Password" name="password" rules={[
-            {
-                required:true,
-                message:"Please input password",
-            },
-        ]}
-        >
-            <Input.Password/>
-        </Form.Item>
-        <div><Link to="/register"> Dont have account? Register new account </Link></div>
+      <Input />
+    </Form.Item>
 
-        <Button type="primary" htmlType="submit">Login</Button>
+    <Form.Item
+      label="Password"
+      name="password"
+      rules={[
+        {
+          required: true,
+          message: 'Please input password',
+        },
+      ]}
+    >
+      <Input.Password />
+    </Form.Item>
 
-        <Button onClick={handleLoginGoogle}>Login by Google</Button>
+    <div>
+      <Link to="/register">Don't have an account? Register new account</Link>
+    </div>
 
-    </Form>
-    </AuthenTemplate>
+    <div className="flex gap-4 mt-4" style={{ justifyContent: 'space-between' }}>
+      <Button
+        type="primary"
+        htmlType="submit"
+        className="login-button"
+        style={{ marginRight: '16px' }}
+      >
+        Login
+      </Button>
+      <Button onClick={handleLoginGoogle} className="login-google-button">
+        Login by Google
+      </Button>
+    </div>
+  </Form>
+</AuthenTemplate>
   
 }
 

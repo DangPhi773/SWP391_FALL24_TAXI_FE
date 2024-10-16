@@ -1,5 +1,6 @@
 import { Layout } from "antd";
-import { Row, Container } from "reactstrap";
+import { Container } from "reactstrap";
+
 const { Footer } = Layout;
 
 

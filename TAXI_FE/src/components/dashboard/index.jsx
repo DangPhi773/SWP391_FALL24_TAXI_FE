@@ -60,8 +60,15 @@ const Dashboard = () => {
               margin: '16px 0',
             }}
           >
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
+            <Breadcrumb>
+  <Breadcrumb.Item>
+    <a href="/home">Trang chủ</a>  {/* Trang chủ */}
+  </Breadcrumb.Item>
+  <Breadcrumb.Item>
+    <a href="/user">Người dùng</a>  {/* Phần người dùng */}
+  </Breadcrumb.Item>
+  <Breadcrumb.Item>Hóa đơn</Breadcrumb.Item> {/* Trang Hóa đơn hiện tại */}
+</Breadcrumb>
           </Breadcrumb>
           <div
             style={{
