@@ -5,6 +5,8 @@ import './index.css'
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import TaxiManagement from './TaxiManagement.jsx';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 createRoot(document.getElementById('root')).render(
   <>

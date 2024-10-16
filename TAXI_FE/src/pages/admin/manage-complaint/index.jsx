@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import FormItem from "antd/es/form/FormItem";
 import { Button, Form, Input, Modal, Popconfirm, Table } from "antd";
-import api from "../../../config/axiox";
+
 import { toast } from "react-toastify";
+import api from "../../../config/axiox";
 
 function ManageComplaint() {
   const [datas, setDatas] = useState([]);
@@ -25,15 +26,11 @@ function ManageComplaint() {
       let response;
       if (values.complaintId) {
         // If complaintId exists, update the complaint
-        response = await api.put(
-          `complaints/update/${values.complaintId}`,
-          values
-        ); // Pass the actual ID
+        response = await api.put(`complaints/update/${values.complaintId}`,values); 
       } else {
         // Otherwise, create a new complaint
         response = await api.post("complaints/add", values);
       }
-
       toast.success("Successfully saved");
       fetchData(); // Reload data
       form.resetFields();
@@ -79,14 +76,14 @@ function ManageComplaint() {
       },
     },
 
-    // { title: "Ride_Id",
-    //   dataIndex:"submittedDate",
-    //   key: "rideId",
-    // },
-    // { title: "User_Id",
-    //   dataIndex:"submittedDate",
-    //   key: "UserId",
-    // },
+    { title: "Ride_Id",
+      dataIndex:"rideId",
+      key: "rideId",
+    },
+    { title: "User_Id",
+      dataIndex:"userId",
+      key: "userId",
+    },
     {
       title: "Action",
       dataIndex: "id",
@@ -132,18 +129,33 @@ function ManageComplaint() {
           <Form.Item name="complaintId" hidden>
             <Input />
           </Form.Item>
-          {/* <Form.Item
-            name="complaintName"
-            label="Name"
+
+          <Form.Item
+            name="userId"
+            label="User_Id"
             rules={[
               {
                 required: true,
-                message: "Please input the Complaint description",
+                message: "Please input the UserID",
               },
             ]}
           >
             <Input />
-          </Form.Item> */}
+          </Form.Item>
+
+          <Form.Item
+            name="rideId"
+            label="Ride_Id"
+            rules={[
+              {
+                required: true,
+                message: "Please input the RideID",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
           <Form.Item name="description" label="Description">
             <Input.TextArea />
           </Form.Item>

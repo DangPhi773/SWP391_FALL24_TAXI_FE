@@ -7,8 +7,8 @@ import Dashboard from './components/dashboard';
 import ManageLocation from './pages/admin/manage-location';
 import ManageTrip from './pages/admin/manage-trip';
 import ManageComplaint from './pages/admin/manage-complaint';
-import ManageStaff from './pages/admin/manage-staff';
 import Layout from './components/layout';
+import ManageUser from './pages/admin/manage-user';
 
 
 function App() {
@@ -48,8 +48,8 @@ function App() {
           element: <ManageComplaint />
         },
         {
-          path: "staff",
-          element: <ManageStaff />
+          path: "user",
+          element: <ManageUser />
         },
       ],
     },

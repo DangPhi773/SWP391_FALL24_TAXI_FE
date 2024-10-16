@@ -9,30 +9,35 @@ import uploadFile from "../../../utils/file";
 import api from "../../../config/axiox";
 
 
-function ManageStaff() {
-  const [students, setStudents] = useState([]);
+function ManageUser() {
+  const [datas, setDatas] = useState([]);
+  const [user, setUser] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [form] = useForm();
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [fileList, setFileList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-
-  const fetchStudent = async () => {
-    const response = await axios.get(api);
-    console.log(response.data);
-    setStudents(response.data);
+  const fetchData = async () => {
+    try {
+      const response = await api.get("v1/user/getAllUser");
+      setDatas(response.data);
+    } catch (error) {
+      toast.error(error?.response?.data || "Failed to fetch data");
+    }
   };
 
   useEffect(() => {
-    fetchStudent();
+    fetchData();
   }, []);
 
   const columns = [
     {
         title: "ID",
-        dataIndex: "id",
+        dataIndex: "userId",
         key: "id",
       },
       {
@@ -45,22 +50,27 @@ function ManageStaff() {
       },
       {
         title: "Name",
-        dataIndex: "name",
+        dataIndex: "fullName",
         key: "name",
       },
       {
-        title: "Code",
-        dataIndex: "code",
+        title: "Email",
+        dataIndex: "email",
+        key: "email",
+      },
+      {
+        title: "Role",
+        dataIndex: "role",
         key: "code",
       },
       {
         title: "Action",
-        dataIndex: "id",
+        dataIndex: "userId",
         key: "id",
         render: (id) => {
             return <>
                 <Popconfirm title="Delete" 
-                description="Do you want delete this student"
+                description="Do you want delete this user"
                 onConfirm={() => handleDeleteStudent(id)}
                 >
                 <Button type="primary" danger>
@@ -78,39 +88,48 @@ function ManageStaff() {
   const handleCloseModal = () => {
     setOpenModal(false);
   }
-  const handleSubmitStudent = async (student) => {
-
+  const handleSubmitStudent = async (user) => {
 
     if(fileList.length > 0){
         const file = fileList[0];
         console.log(file);
         const url = await uploadFile(file.originFileObj);
-        student.image = url;
+        user.image = url;
     }
 
-    console.log(student);
+    console.log(user);
     try {
-        setSubmitting(true);
-        const response = await axios.post(api, student);
-        toast.success('Successfully')
-        setOpenModal(false);
-        
-        form.resetFields();
-
-        fetchStudent()
-    }catch (error) {
-        toast.error(error);
-    }finally{
-        setSubmitting(false);
+      setLoading(true);
+      let response;
+      if (user.userId) {
+        response = await api.put(`v1/user/updateUser/${user.userId}`,user); 
+      } else {
+        response = await api.post("v1/user/registerNewUser", user);
+      }
+      toast.success("Successfully saved");
+      fetchData(); 
+      form.resetFields();
+      setShowModal(false); 
+    } catch (error) {
+      toast.error(error?.response?.data || "Failed to save user");
+    } finally {
+      setLoading(false);
     }
-  }
-  const handleDeleteStudent = async (studentId) => {
+  };
+
+  const handleDeleteStudent = async (userId) => {
+    if (!userId) {
+      toast.error("Failed to delete user: Invalid ID");
+      return;
+    }
     try {
-        axios.delete(`${api}/${studentId}`);
-        toast.success("Delete successfully");
-        fetchStudent();
-    } catch (ex) {
-        toast.error("Fail to delete student");
+      await api.delete(`v1/user/deleteUser/${userId}`); 
+      toast.success("User deleted successfully");
+      fetchData(); 
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data?.message || "Failed to delete user";
+      toast.error(errorMessage);
     }
   };
   const getBase64 = (file) =>
@@ -149,50 +168,55 @@ function ManageStaff() {
 
   return (
     <div>
-      <h1>Taxi Management</h1>
-        <Button onClick={handleOpenModal}>Create new student</Button>
-      <Table columns={columns} dataSource={students} />
-      <Modal confirmLoading={submitting} onOk={() => form.submit()} title="Create new staff" open={openModal} onCancel={handleCloseModal}>
+      
+        <Button onClick={handleOpenModal}>Create new user</Button>
+      <Table columns={columns} dataSource={user} />
+      <Modal confirmLoading={submitting} onOk={() => form.submit()} title="Create new user" open={openModal} onCancel={handleCloseModal}>
         <Form onFinish={handleSubmitStudent} form={form}>
-            <Form.Item label="Staff's name" name="name" rules={[
+            <Form.Item label="User's name" name="name" rules={[
                 {
                     required:true,
-                    message:"Please input Staff's name",
+                    message:"Please input User's name",
                 }
-
             ]}
             >
-
                 <Input />
             </Form.Item>
 
-            <Form.Item label="Student code" name="code" rules={[
+            <Form.Item label="User's Role" name="code" rules={[
                 {
                     required:true,
-                    message:"Please input student's code",
+                    message:"Please input user's role",
+                },                
+            ]}
+            >
+                <Input />
+            </Form.Item>
+
+            <Form.Item label="Email " name="email" rules={[
+                {
+                    required:true,
+                    message:"Please input student's email",
                 },
                 {
-                    pattern: "SE\\d{6}$",
-                    message:"Invalid format",
+                  pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+                  message: "Invalid email format",
                 },
             ]}
             >
                 <Input />
             </Form.Item>
 
-            <Form.Item label="Student " name="code" rules={[
+            <Form.Item label="User's Password" name="password" rules={[
                 {
                     required:true,
-                    message:"Please input student's code",
-                },
-                {
-                    pattern: "SE\\d{6}$",
-                    message:"Invalid format",
-                },
+                    message:"Please input user's password",
+                },                
             ]}
             >
                 <Input />
             </Form.Item>
+
             <Form.Item label="image" name="image">
             <Upload
                 action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
@@ -224,4 +248,4 @@ function ManageStaff() {
   );
 }
 
-export default ManageStaff;
+export default ManageUser;

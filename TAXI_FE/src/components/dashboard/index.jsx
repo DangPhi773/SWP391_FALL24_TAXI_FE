@@ -21,7 +21,7 @@ const items = [
     getItem("Manage Location", 'locations', <PieChartOutlined />),
     getItem("Manage Trip", 'trip', <PieChartOutlined />),
     getItem("Manage Complaint", 'complaint', <PieChartOutlined />),
-    getItem("Manage Staff", 'staff', <PieChartOutlined />),
+    getItem("Manage User", 'user', <PieChartOutlined />),
 
 ];
 
