@@ -13,7 +13,7 @@ function ManageComplaint() {
 
   const fetchData = async () => {
     try {
-      const response = await api.get("complaints/getAll");
+      const response = await api.get("/complaints/getAll");
       setDatas(response.data);
     } catch (error) {
       toast.error(error?.response?.data || "Failed to fetch data");
@@ -26,10 +26,10 @@ function ManageComplaint() {
       let response;
       if (values.complaintId) {
         // If complaintId exists, update the complaint
-        response = await api.put(`complaints/update/${values.complaintId}`,values); 
+        response = await api.put(`/complaints/update/${values.complaintId}`,values); 
       } else {
         // Otherwise, create a new complaint
-        response = await api.post("complaints/add", values);
+        response = await api.post("/complaints/add", values);
       }
       toast.success("Successfully saved");
       fetchData(); // Reload data
@@ -130,7 +130,7 @@ function ManageComplaint() {
             <Input />
           </Form.Item>
 
-          <Form.Item
+          {/* <Form.Item
             name="userId"
             label="User_Id"
             rules={[
@@ -154,7 +154,7 @@ function ManageComplaint() {
             ]}
           >
             <Input />
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item name="description" label="Description">
             <Input.TextArea />
