@@ -35,10 +35,10 @@ function IndexNavbar() {
     <Collapse navbar isOpen={navbarCollapse}>
       <Nav className="mx-auto" navbar>
         <NavItem>
-          <NavLink href="/home">Home</NavLink>
+          <NavLink href="/">Home</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/pages">Pages</NavLink>
+          <NavLink href="/share-ride">Share Ride</NavLink>
         </NavItem>
         <NavItem>
           <NavLink href="/services">Services</NavLink>
