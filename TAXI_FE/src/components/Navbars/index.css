@@ -1,0 +1,43 @@
+.navbar {
+    padding: 8px 20px; /* Decrease padding to make the navbar smaller */
+    height: 60px; /* You can adjust this height as needed */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffc107; /* Keeping the yellow background */
+  }
+  
+  /* Shrinking the logo */
+  .logo-img {
+    height: 40px; /* Reduce logo size */
+    width: auto;
+  }
+  
+  /* Adjust the spacing between nav items */
+  .navbar-nav .nav-link {
+    padding: 0 10px; /* Reduce padding between nav links */
+    font-size: 16px; /* Optional: Decrease font size if needed */
+  }
+  
+  /* Adjust button sizes */
+  .book-btn {
+    padding: 5px 15px; /* Smaller button */
+    font-size: 14px; /* Adjust font size */
+  }
+
+  .login-btn {
+    padding: 5px 15px; /* Smaller button */
+    font-size: 14px; /* Adjust font size */
+  }
+  
+  .btn-primary {
+    padding: 5px 15px; /* Smaller button */
+    font-size: 14px; /* Adjust font size */
+  }
+  
+  /* Ensure alignment and spacing is consistent */
+  .right-section {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adjust gap between buttons */
+  }
