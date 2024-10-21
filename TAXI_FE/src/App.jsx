@@ -10,6 +10,7 @@ import ManageComplaint from './pages/admin/manage-complaint';
 import Layout from './components/layout';
 import ManageUser from './pages/admin/manage-user';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ForgotPasswordPage from './pages/forgotPassword';
 
 function App() {
   const Router = createBrowserRouter([
@@ -30,6 +31,10 @@ function App() {
     {
       path: "register",
       element: <RegisterPage />,
+    },
+    {
+      path: "forgot-password",
+      element: <ForgotPasswordPage />,
     },
     {
       path: "dashboard",

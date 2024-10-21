@@ -84,6 +84,10 @@ function ManageComplaint() {
       dataIndex:"userId",
       key: "userId",
     },
+    { title: "Status",
+      dataIndex:"status",
+      key: "status",
+    },
     {
       title: "Action",
       dataIndex: "id",

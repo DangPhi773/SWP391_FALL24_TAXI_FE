@@ -39,7 +39,7 @@ function LoginPage() {
 
   const handleLogin = async (values) => {
     try {
-      const response = await api.post("taxi-server/api/v1/user/login", values);
+      const response = await api.post("/user/login", values);
       console.log(response);
       const { role, token } = response.data;
       localStorage.setItem("token", token);
@@ -90,10 +90,9 @@ function LoginPage() {
           <Input.Password />
         </Form.Item>
 
-        <div>
-          <Link to="/register">
-            Don't have an account? Register new account
-          </Link>
+        <div className="auth-links">
+          <Link to="/register" className="register-link">Register new account</Link>
+          <Link to="/forgot-password" className="forgot-password-link">Forgot Password</Link>
         </div>
 
         <div
