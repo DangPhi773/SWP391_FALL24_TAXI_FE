@@ -26,7 +26,10 @@ function ManageComplaint() {
       let response;
       if (values.complaintId) {
         // If complaintId exists, update the complaint
-        response = await api.put(`/complaints/update/${values.complaintId}`,values); 
+        response = await api.put(
+          `/complaints/update/${values.complaintId}`,
+          values
+        );
       } else {
         // Otherwise, create a new complaint
         response = await api.post("/complaints/add", values);
@@ -76,18 +79,9 @@ function ManageComplaint() {
       },
     },
 
-    { title: "Ride_Id",
-      dataIndex:"rideId",
-      key: "rideId",
-    },
-    { title: "User_Id",
-      dataIndex:"userId",
-      key: "userId",
-    },
-    { title: "Status",
-      dataIndex:"status",
-      key: "status",
-    },
+    { title: "Ride_Id", dataIndex: "rideId", key: "rideId" },
+    { title: "User_Id", dataIndex: "userId", key: "userId" },
+    { title: "Status", dataIndex: "status", key: "status" },
     {
       title: "Action",
       dataIndex: "id",
@@ -98,7 +92,7 @@ function ManageComplaint() {
             type="primary"
             onClick={() => {
               setShowModal(true);
-              form.setFieldsValue(record); 
+              form.setFieldsValue(record);
             }}
           >
             Edit

@@ -91,8 +91,12 @@ function LoginPage() {
         </Form.Item>
 
         <div className="auth-links">
-          <Link to="/register" className="register-link">Register new account</Link>
-          <Link to="/forgot-password" className="forgot-password-link">Forgot Password</Link>
+          <Link to="/register" className="register-link">
+            Register new account
+          </Link>
+          <Link to="/forgot-password" className="forgot-password-link">
+            Forgot Password
+          </Link>
         </div>
 
         <div

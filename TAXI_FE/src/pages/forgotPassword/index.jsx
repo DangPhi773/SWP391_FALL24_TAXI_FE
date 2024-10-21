@@ -10,8 +10,8 @@ import { toast } from "react-toastify";
 
 function ForgotPasswordPage() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async () => {
     try {
@@ -35,26 +35,29 @@ function ForgotPasswordPage() {
         </div>
 
         <Form.Item
-            label="Username or Email"
-            name="email"
-            rules={[
-                {
-                required: true,
-                message: "Please input your email",
-                },
-                {
-                pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                message: "Please enter a valid email address",
-                },
-            ]}
-            >
-            <Input />
+          label="Username or Email"
+          name="email"
+          rules={[
+            {
+              required: true,
+              message: "Please input your email",
+            },
+            {
+              pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+              message: "Please enter a valid email address",
+            },
+          ]}
+        >
+          <Input />
         </Form.Item>
 
-
         <div className="auth-links">
-          <Link to="/register" className="register-link">Register new account</Link>
-          <Link to="/login" className="login-link">Login</Link>
+          <Link to="/register" className="register-link">
+            Register new account
+          </Link>
+          <Link to="/login" className="login-link">
+            Login
+          </Link>
         </div>
 
         <div
@@ -68,7 +71,7 @@ function ForgotPasswordPage() {
             style={{ marginRight: "16px" }}
           >
             Submit
-          </Button>          
+          </Button>
         </div>
       </Form>
     </AuthenTemplate>
