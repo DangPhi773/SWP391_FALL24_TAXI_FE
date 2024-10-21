@@ -24,13 +24,13 @@ const CreateRide = () => {
   const [startLocationId, setStartLocationId] = useState(null);
   const [endLocationId, setEndLocationId] = useState(null);
   const [locations, setLocations] = useState([]);
-  const [userId, setUserId] = useState(""); // Initialize userId as an empty string
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const response = await api.get("/locations/getAll"); // Adjust endpoint as needed
-        setLocations(response.data); // Assuming an array of location objects
+        const response = await api.get("/locations/getAll");
+        setLocations(response.data); 
       } catch (error) {
         console.error("Error fetching locations:", error);
       }
@@ -53,7 +53,7 @@ const CreateRide = () => {
         paymentMethod,
         startLocationId,
         endLocationId,
-        userId: userId ? Number(userId) : null, // Ensure userId is a number
+        userId: userId ? Number(userId) : null,
       };
       const response = await api.post("/rides/add", payload);
       console.log("Ride created successfully:", response.data);
@@ -83,7 +83,7 @@ const CreateRide = () => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                label="User ID" // Field to input user ID
+                label="User ID"
                 value={userId}
                 onChange={(e) => setUserId(e.target.value)}
                 fullWidth

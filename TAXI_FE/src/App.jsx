@@ -11,6 +11,8 @@ import Layout from './components/layout';
 import ManageUser from './pages/admin/manage-user';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ForgotPasswordPage from './pages/forgotPassword';
+import JoinRide from './pages/joinRide';
+import CreateRide from './pages/createRide';
 
 function App() {
   const Router = createBrowserRouter([
@@ -27,6 +29,14 @@ function App() {
     {
       path: "login",
       element: <LoginPage />,
+    },
+    {
+      path: "join-ride",
+      element: <JoinRide />,
+    },
+    {
+      path: "create-ride",
+      element: <CreateRide />,
     },
     {
       path: "register",
