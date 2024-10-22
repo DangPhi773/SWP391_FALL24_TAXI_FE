@@ -39,8 +39,11 @@ function LoginPage() {
       localStorage.setItem("username", username); // Lưu username vào localStorage
   
       // Điều hướng về trang HomePage sau khi đăng nhập thành công
-      navigate("/");
-  
+      if (role === "ADMIN") {
+        navigate("/dashboard");
+      }else{
+        navigate("/");
+      }
     } catch (error) {
       toast.error(error.response.data.message || "Login failed");
     }
@@ -60,7 +63,7 @@ function LoginPage() {
         </div>
 
         <Form.Item
-          label="Username or Email"
+          label="Email"
           name="email"
           rules={[
             {
