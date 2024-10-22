@@ -10,47 +10,42 @@ import { toast } from "react-toastify";
 import "./index.css";
 
 function LoginPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Sử dụng hook useNavigate để điều hướng
+
   const handleLoginGoogle = () => {
     const auth = getAuth();
     signInWithPopup(auth, googleProvider)
       .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
-        // The signed-in user info.
         const user = result.user;
-
         console.log(user);
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
       })
       .catch((error) => {
-        // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
-        // The email of the user's account used.
         const email = error.customData.email;
-        // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
       });
   };
 
   const handleLogin = async (values) => {
     try {
-      const response = await api.post("/user/login", values);
+      const response = await api.post("/auth/signIn", values);
       console.log(response);
-      const { role, token } = response.data;
-      localStorage.setItem("token", token);
-
-      if (role === "ADMIN") {
-        navigate("/dashboard");
-      }
+      const { role, accessToken, username } = response.data;
+      localStorage.setItem("token", accessToken);  // Lưu JWT token vào localStorage
+      localStorage.setItem("role", role);    // Lưu role vào localStorage
+      localStorage.setItem("username", username); // Lưu username vào localStorage
+  
+      // Điều hướng về trang HomePage sau khi đăng nhập thành công
+      navigate("/");
+  
     } catch (error) {
-      toast.error(error.response.data);
+      toast.error(error.response.data.message || "Login failed");
     }
   };
+  
 
   return (
     <AuthenTemplate>
