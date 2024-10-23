@@ -1,35 +1,86 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import LoginPage from './pages/login';
+import RegisterPage from './pages/register';
+import HomePage from './pages/home';
+import Dashboard from './components/dashboard';
+import ManageLocation from './pages/admin/manage-location';
+import ManageTrip from './pages/admin/manage-trip';
+import ManageComplaint from './pages/admin/manage-complaint';
+import Layout from './components/layout';
+import ManageUser from './pages/admin/manage-user';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import ForgotPasswordPage from './pages/forgotPassword';
+import JoinRide from './pages/joinRide';
+import CreateRide from './pages/createRide';
+import MyRides from './pages/myRides';
+import Feedback from './pages/feedBack';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const router = createBrowserRouter([
+    {
+      path: "",
+      element: <Layout />,
+      children: [
+        {
+          path: "",
+          element: <HomePage />,
+        },
+      ],
+    },
+    {
+      path: "login",
+      element: <LoginPage />,
+    },
+    {
+      path: "join-ride",
+      element: <JoinRide />,
+    },
+    {
+      path: "create-ride",
+      element: <CreateRide />,
+    },
+    {
+      path: "register",
+      element: <RegisterPage />,
+    },
+    {
+      path: "forgot-password",
+      element: <ForgotPasswordPage />,
+    },
+    {
+      path: "my-rides",
+      element: <MyRides />,
+    },
+    {
+      path: "feedback/:rideId",
+      element: <Feedback />,
+    },
+    {
+      path: "dashboard",
+      element: <Dashboard />,
+      children: [
+        {
+          path: "locations",
+          element: <ManageLocation />
+        },
+        {
+          path: "trip",
+          element: <ManageTrip />
+        },
+        {
+          path: "complaint",
+          element: <ManageComplaint />
+        },
+        {
+          path: "user",
+          element: <ManageUser />
+        },
+      ],
+    },
+  ]);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;

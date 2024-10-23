@@ -1,0 +1,24 @@
+.card {
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+  }
+  
+  .card-content {
+    padding: 16px;
+    text-align: left;
+  }
+  
+  .select-ride-btn {
+    background-color: #007BFF;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .select-ride-btn:hover {
+    background-color: #0056b3;
+  }
+  
