@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Container, Typography, Grid, Card, CardContent, Button } from "@mui/material";
 import api from "../../config/axiox";
-import {jwtDecode} from "jwt-decode";
+import {jwtDecode} from "jwt-decode"; // Đảm bảo import jwtDecode đúng cách
 import Navbar from "../../components/Navbars";
-import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify"; // Import từ react-toastify
-import 'react-toastify/dist/ReactToastify.css'; // Import CSS của react-toastify
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import './index.css'; 
 
 const MyRides = () => {
   const [rides, setRides] = useState([]);
   const [userId, setUserId] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRides = async () => {
@@ -51,22 +49,26 @@ const MyRides = () => {
     return ride ? ride.organizerUsername : null; 
   };
 
-  // Hàm để chuyển hướng đến trang feedback nếu ride đã hoàn thành
+  // Hàm để mở trang feedback trong một cửa sổ mới
   const handleFeedbackClick = (rideId, status) => {
     if (status === "COMPLETED") {
-      navigate(`/feedback/${rideId}`);
+        const width = 1280; 
+        const height = 720; 
+        const left = (window.innerWidth / 2) - (width / 2);
+        const top = (window.innerHeight / 2) - (height / 2);
+        window.open(`/feedback/${rideId}`, "_blank", `width=${width},height=${height},top=${top},left=${left}`);
     } else {
-      toast.warning("You can only provide feedback for COMPLETED rides.", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+        toast.warning("You can only provide feedback for COMPLETED rides.", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
     }
-  };
+};
+
 
   return (
     <>

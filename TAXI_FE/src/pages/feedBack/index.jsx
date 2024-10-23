@@ -1,15 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Typography, TextField, Button, Rating, Box } from "@mui/material";
-import api from "../../config/axiox"; // Đảm bảo đường dẫn tới file config axios đúng
+import api from "../../config/axiox";
 import { useParams, useNavigate } from "react-router-dom";
-import {jwtDecode} from "jwt-decode"; // Đảm bảo import jwtDecode nếu dùng để giải mã token
-import Navbar from "../../components/Navbars"; // Import Navbar
+import { jwtDecode } from "jwt-decode";
+import Navbar from "../../components/Navbars";
 
 const Feedback = () => {
-  const { rideId } = useParams(); // Lấy rideId từ URL
+  const { rideId } = useParams();
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState(3);
+  const [existingFeedback, setExistingFeedback] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchFeedback = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const decoded = jwtDecode(token);
+        const userId = decoded.sub;
+
+        const response = await api.get(`/complaints/${rideId}/user/${userId}`);
+        if (response.data) {
+          setExistingFeedback(response.data); 
+          setDescription(response.data.description); 
+          setRating(response.data.rating);
+        }
+      } catch (error) {
+        console.error("Error fetching feedback:", error);
+      }
+    };
+
+    fetchFeedback();
+  }, [rideId]);
 
   const handleSubmit = async () => {
     try {
@@ -17,7 +39,6 @@ const Feedback = () => {
       const decoded = jwtDecode(token);
       const userId = decoded.sub;
 
-      // Dữ liệu để gửi lên API
       const feedbackData = {
         description,
         rating,
@@ -25,11 +46,13 @@ const Feedback = () => {
         rideId
       };
 
-      // Gọi API để tạo phản hồi
-      await api.post("/taxi-server/api/v1/complaints/add", feedbackData);
+      if (existingFeedback) {
+        await api.put(`/complaints/updateByUser/${existingFeedback.complaintId}`, feedbackData);
+      } else {
+        await api.post("/complaints/add", feedbackData);
+      }
 
-      // Sau khi gửi phản hồi thành công, chuyển về trang MyRides
-      navigate("/my-rides");
+      navigate("/my-rides"); 
     } catch (error) {
       console.error("Error submitting feedback:", error);
     }
@@ -37,10 +60,10 @@ const Feedback = () => {
 
   return (
     <>
-      <Navbar /> {/* Thêm Navbar */}
+      <Navbar />
       <Container maxWidth="sm" style={{ paddingTop: '80px' }}>
         <Typography variant="h4" align="center" gutterBottom>
-          Feedback
+          {existingFeedback ? "Update Feedback" : "Submit Feedback"}
         </Typography>
         <Box component="form" noValidate autoComplete="off">
           <TextField
@@ -68,7 +91,7 @@ const Feedback = () => {
             onClick={handleSubmit}
             sx={{ mt: 3 }}
           >
-            Submit Feedback
+            {existingFeedback ? "Update Feedback" : "Submit Feedback"}
           </Button>
         </Box>
       </Container>
