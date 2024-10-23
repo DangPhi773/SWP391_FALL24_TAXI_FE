@@ -26,19 +26,27 @@ function App() {
           path: "",
           element: <HomePage />,
         },
+        {
+          path: "join-ride",
+          element: <JoinRide />,
+        },
+        {
+          path: "create-ride",
+          element: <CreateRide />,
+        },
+        {
+          path: "my-rides",
+          element: <MyRides />,
+        },
+        {
+          path: "feedback/:rideId",
+          element: <Feedback />,
+        },
       ],
     },
     {
       path: "login",
       element: <LoginPage />,
-    },
-    {
-      path: "join-ride",
-      element: <JoinRide />,
-    },
-    {
-      path: "create-ride",
-      element: <CreateRide />,
     },
     {
       path: "register",
@@ -49,24 +57,12 @@ function App() {
       element: <ForgotPasswordPage />,
     },
     {
-      path: "my-rides",
-      element: <MyRides />,
-    },
-    {
-      path: "feedback/:rideId",
-      element: <Feedback />,
-    },
-    {
       path: "dashboard",
       element: <Dashboard />,
       children: [
         {
           path: "locations",
           element: <ManageLocation />
-        },
-        {
-          path: "trip",
-          element: <ManageTrip />
         },
         {
           path: "complaint",
