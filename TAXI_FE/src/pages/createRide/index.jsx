@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import api from "../../config/axiox"; 
 import IndexNavbar from "../../components/Navbars";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import "core-js/stable/atob";
 
 const CreateRide = () => {
@@ -27,7 +27,7 @@ const CreateRide = () => {
   const [startLocationId, setStartLocationId] = useState(null);
   const [endLocationId, setEndLocationId] = useState(null);
   const [locations, setLocations] = useState([]);
-  const [userId, setUserId] = useState(null); // Set initial value to null
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -41,18 +41,29 @@ const CreateRide = () => {
 
     fetchLocations();
 
-    // Get User ID from JWT token
-    const token = localStorage.getItem("token"); // Assuming your JWT is stored in localStorage
+    const token = localStorage.getItem("token");
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        console.log("Decoded JWT:", decoded); // Log the decoded JWT for inspection
-        setUserId(decoded.sub ? Number(decoded.sub) : null); // Ensure userId is set correctly
+        setUserId(decoded.sub ? Number(decoded.sub) : null);
       } catch (error) {
-        console.error("Invalid token:", error); // Handle token decoding error
+        console.error("Invalid token:", error);
       }
     }
   }, []);
+
+  const handleStartTimeChange = (e) => {
+    const newStartTime = e.target.value;
+    setStartTime(newStartTime);
+
+    const startDate = new Date(newStartTime);
+    const localStartDate = new Date(startDate.getTime() + (7 * 60 * 60 * 1000));
+    const endDate = new Date(localStartDate);
+    endDate.setMinutes(endDate.getMinutes() + 15);
+
+    setEndTime(endDate.toISOString().slice(0, 16));
+    setRideDate(localStartDate.toISOString().slice(0, 10));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,7 +78,7 @@ const CreateRide = () => {
       paymentMethod,
       startLocationId,
       endLocationId,
-      userId: userId !== null ? userId : null, // Chỉ thêm userId nếu hợp lệ
+      userId: userId !== null ? userId : null,
     };
 
     try {
@@ -84,7 +95,7 @@ const CreateRide = () => {
       setStartLocationId(null);
       setEndLocationId(null);
     } catch (error) {
-      console.error("Error creating ride:", error.response ? error.response.data : error); // Improved error logging
+      console.error("Error creating ride:", error.response ? error.response.data : error);
     }
   };
 
@@ -106,7 +117,12 @@ const CreateRide = () => {
       <IndexNavbar />
       <Container maxWidth="sm" style={{ marginTop: '80px' }}>
         <Box mt={4} mb={4} padding={2} borderRadius={2} boxShadow={3} bgcolor="#fff">
-          <Typography variant="h4" align="center" gutterBottom>
+          <Typography 
+            variant="h4" 
+            align="center" 
+            gutterBottom 
+            sx={{ mb: 3 }} // Adjust margin
+          >
             Create a New Ride
           </Typography>
           <form onSubmit={handleSubmit}>
@@ -126,7 +142,7 @@ const CreateRide = () => {
                   label="Start Time"
                   type="datetime-local"
                   value={startTime}
-                  onChange={(e) => setStartTime(e.target.value)}
+                  onChange={handleStartTimeChange}
                   fullWidth
                   InputLabelProps={{
                     shrink: true,
@@ -140,7 +156,7 @@ const CreateRide = () => {
                   label="End Time"
                   type="datetime-local"
                   value={endTime}
-                  onChange={(e) => setEndTime(e.target.value)}
+                  disabled 
                   fullWidth
                   InputLabelProps={{
                     shrink: true,
@@ -154,7 +170,7 @@ const CreateRide = () => {
                   label="Ride Date"
                   type="date"
                   value={rideDate}
-                  onChange={(e) => setRideDate(e.target.value)}
+                  disabled 
                   fullWidth
                   InputLabelProps={{
                     shrink: true,
@@ -200,7 +216,6 @@ const CreateRide = () => {
                 </FormControl>
               </Grid>
 
-              {/* Autocomplete for Start Location */}
               <Grid item xs={12}>
                 <Autocomplete
                   options={locations}
@@ -212,7 +227,6 @@ const CreateRide = () => {
                 />
               </Grid>
 
-              {/* Autocomplete for End Location */}
               <Grid item xs={12}>
                 <Autocomplete
                   options={locations}
@@ -230,7 +244,8 @@ const CreateRide = () => {
                   variant="contained"
                   color="primary"
                   fullWidth
-                  disabled={!isFormValid()} // Disable if the form is not valid
+                  disabled={!isFormValid()}
+                  sx={{ mt: 2 }} // Adjust margin for button
                 >
                   Create Ride
                 </Button>

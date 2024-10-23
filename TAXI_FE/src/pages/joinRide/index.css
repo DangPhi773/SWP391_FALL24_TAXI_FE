@@ -57,3 +57,7 @@ body {
 .snackbar-error {
   background-color: #F44336;
 }
+.typography-title {
+  margin-top: 100px; /* Adjust the value as needed */
+  margin-bottom: 40px;
+}

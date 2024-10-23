@@ -13,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ForgotPasswordPage from './pages/forgotPassword';
 import JoinRide from './pages/joinRide';
 import CreateRide from './pages/createRide';
+import MyRides from './pages/myRides';
 
 function App() {
   const Router = createBrowserRouter([
@@ -38,6 +39,7 @@ function App() {
       path: "create-ride",
       element: <CreateRide />,
     },
+    
     {
       path: "register",
       element: <RegisterPage />,
@@ -45,6 +47,10 @@ function App() {
     {
       path: "forgot-password",
       element: <ForgotPasswordPage />,
+    },
+    {
+      path: "my-rides",
+      element: <MyRides />,
     },
     {
       path: "dashboard",

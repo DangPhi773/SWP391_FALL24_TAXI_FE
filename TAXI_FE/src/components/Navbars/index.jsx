@@ -38,7 +38,7 @@ function IndexNavbar() {
     if (token && role === "STUDENT") {
       navigate("/create-ride"); 
     } else {
-      toast.error("You must be logged in as a student to access this page."); 
+      toast.error("You must be logged in as STUDENT to access this page."); 
     }
   };
 
@@ -46,9 +46,18 @@ function IndexNavbar() {
     if (token && role === "STUDENT") {
       navigate("/join-ride"); 
     } else {
-      toast.error("You must be logged in as a student to access this page."); 
+      toast.error("You must be logged in as STUDENT to access this page."); 
     }
   };
+
+  const handleMyRides = () => {
+    if (token && role === "STUDENT") {
+      navigate("/my-rides"); 
+    } else {
+      toast.error("You must be logged in as STUDENT to access this page."); 
+    }
+  };
+
 
   return (
     <Navbar className={classnames("navbar", "fixed-top")} expand="lg">
@@ -74,6 +83,9 @@ function IndexNavbar() {
         </Collapse>
 
         <div className="right-section d-flex align-items-center">
+        <button className="book-btn" onClick={handleMyRides}>
+            My Rides
+          </button>
         <button className="book-btn" onClick={handleJoinRide}>
             Join a Ride
           </button>
