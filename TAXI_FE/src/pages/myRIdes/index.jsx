@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Container, Typography, Grid, Card, CardContent, Button } from "@mui/material";
 import api from "../../config/axiox";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import Navbar from "../../components/Navbars";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify"; // Import từ react-toastify
+import 'react-toastify/dist/ReactToastify.css'; // Import CSS của react-toastify
 import './index.css'; 
 
 const MyRides = () => {
   const [rides, setRides] = useState([]);
   const [userId, setUserId] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRides = async () => {
@@ -47,45 +51,68 @@ const MyRides = () => {
     return ride ? ride.organizerUsername : null; 
   };
 
+  // Hàm để chuyển hướng đến trang feedback nếu ride đã hoàn thành
+  const handleFeedbackClick = (rideId, status) => {
+    if (status === "COMPLETED") {
+      navigate(`/feedback/${rideId}`);
+    } else {
+      toast.warning("You can only provide feedback for COMPLETED rides.", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
+
   return (
     <>
       <Navbar />
+      <ToastContainer /> {/* Thêm ToastContainer vào component */}
       <Container maxWidth="md" style={{ paddingTop: '80px' }}>
         <Typography variant="h4" align="center" gutterBottom>
           My Rides
         </Typography>
 
         <Grid container spacing={4}>
-  {rides.map((ride) => (
-    <Grid item xs={12} sm={6} md={4} key={ride.rideId}>
-      <Card className="card" variant="outlined" sx={{ mb: 3, p: 2 }}>
-        <CardContent className="card-content">
-          <Typography variant="h6" sx={{ fontWeight: 'medium' }}>{ride.rideCode}</Typography>
-          <Typography variant="body2">Start Location: {ride.startLocationName}</Typography>
-          <Typography variant="body2">End Location: {ride.endLocationName}</Typography>
-          <Typography variant="body2">
-            Start Time: {new Date(ride.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-          </Typography>
-          <Typography variant="body2">
-            End Time: {new Date(ride.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-          </Typography>
-          <Typography variant="body2">
-            Ride Date: {new Date(ride.rideDate).toLocaleDateString()}
-          </Typography>
-          <Typography variant="body2">Capacity: {ride.capacity}</Typography>
-          <Typography variant="body2">Status: {ride.status}</Typography>
-          <Typography variant="body2">Price: ${ride.price.toFixed(2)}</Typography>
-          <Typography variant="body2">Payment Method: {ride.paymentMethod}</Typography>
-          <Typography variant="body2">Organizer: {getOrganizerUsername(ride.rideId) || "N/A"}</Typography>
-          <Button variant="contained" className="select-ride-btn" sx={{ mt: 2 }} fullWidth>
-            View Details
-          </Button>
-        </CardContent>
-      </Card>
-    </Grid>
-  ))}
-</Grid>
-
+          {rides.map((ride) => (
+            <Grid item xs={12} sm={6} md={4} key={ride.rideId}>
+              <Card className="card" variant="outlined" sx={{ mb: 3, p: 2 }}>
+                <CardContent className="card-content">
+                  <Typography variant="h6" sx={{ fontWeight: 'medium' }}>{ride.rideCode}</Typography>
+                  <Typography variant="body2">Start Location: {ride.startLocationName}</Typography>
+                  <Typography variant="body2">End Location: {ride.endLocationName}</Typography>
+                  <Typography variant="body2">
+                    Start Time: {new Date(ride.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </Typography>
+                  <Typography variant="body2">
+                    End Time: {new Date(ride.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </Typography>
+                  <Typography variant="body2">
+                    Ride Date: {new Date(ride.rideDate).toLocaleDateString()}
+                  </Typography>
+                  <Typography variant="body2">Capacity: {ride.capacity}</Typography>
+                  <Typography variant="body2">Status: {ride.status}</Typography>
+                  <Typography variant="body2">Price: ${ride.price.toFixed(2)}</Typography>
+                  <Typography variant="body2">Payment Method: {ride.paymentMethod}</Typography>
+                  <Typography variant="body2">Organizer: {getOrganizerUsername(ride.rideId) || "N/A"}</Typography>
+                  <Button
+                    variant="contained"
+                    className="select-ride-btn"
+                    sx={{ mt: 2 }}
+                    fullWidth
+                    onClick={() => handleFeedbackClick(ride.rideId, ride.status)} // Thêm điều kiện kiểm tra status
+                  >
+                    Feedback
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
       </Container>
     </>
   );

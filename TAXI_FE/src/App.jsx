@@ -1,5 +1,5 @@
-import React from 'react'
-import {  createBrowserRouter, Router, RouterProvider } from 'react-router-dom';
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
 import HomePage from './pages/home';
@@ -14,9 +14,10 @@ import ForgotPasswordPage from './pages/forgotPassword';
 import JoinRide from './pages/joinRide';
 import CreateRide from './pages/createRide';
 import MyRides from './pages/myRides';
+import Feedback from './pages/feedBack';
 
 function App() {
-  const Router = createBrowserRouter([
+  const router = createBrowserRouter([
     {
       path: "",
       element: <Layout />,
@@ -39,7 +40,6 @@ function App() {
       path: "create-ride",
       element: <CreateRide />,
     },
-    
     {
       path: "register",
       element: <RegisterPage />,
@@ -53,9 +53,13 @@ function App() {
       element: <MyRides />,
     },
     {
+      path: "feedback/:rideId",
+      element: <Feedback />,
+    },
+    {
       path: "dashboard",
       element: <Dashboard />,
-      children:[
+      children: [
         {
           path: "locations",
           element: <ManageLocation />
@@ -74,12 +78,9 @@ function App() {
         },
       ],
     },
-    
   ]);
 
-
-  return <RouterProvider router={Router} />
-  
+  return <RouterProvider router={router} />;
 }
 
 export default App;
