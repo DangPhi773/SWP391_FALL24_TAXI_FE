@@ -1,20 +1,20 @@
-import React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import LoginPage from './pages/login';
-import RegisterPage from './pages/register';
-import HomePage from './pages/home';
-import Dashboard from './components/dashboard';
-import ManageLocation from './pages/admin/manage-location';
-import ManageTrip from './pages/admin/manage-trip';
-import ManageComplaint from './pages/admin/manage-complaint';
-import Layout from './components/layout';
-import ManageUser from './pages/admin/manage-user';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import ForgotPasswordPage from './pages/forgotPassword';
-import JoinRide from './pages/joinRide';
-import CreateRide from './pages/createRide';
-import MyRides from './pages/myRides';
-import Feedback from './pages/feedBack';
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import LoginPage from "./pages/login";
+import RegisterPage from "./pages/register";
+import HomePage from "./pages/home";
+import Dashboard from "./components/dashboard";
+import ManageLocation from "./pages/admin/manage-location";
+import ManageTrip from "./pages/admin/manage-trip";
+import ManageComplaint from "./pages/admin/manage-complaint";
+import Layout from "./components/layout";
+import ManageUser from "./pages/admin/manage-user";
+import "bootstrap/dist/css/bootstrap.min.css";
+import ForgotPasswordPage from "./pages/forgotPassword";
+import JoinRide from "./pages/joinRide";
+import CreateRide from "./pages/createRide";
+import MyRides from "./pages/myRides";
+import Feedback from "./pages/feedBack";
 
 function App() {
   const router = createBrowserRouter([
@@ -62,15 +62,19 @@ function App() {
       children: [
         {
           path: "locations",
-          element: <ManageLocation />
+          element: <ManageLocation />,
+        },
+        {
+          path: "trip",
+          element: <ManageTrip />,
         },
         {
           path: "complaint",
-          element: <ManageComplaint />
+          element: <ManageComplaint />,
         },
         {
           path: "user",
-          element: <ManageUser />
+          element: <ManageUser />,
         },
       ],
     },
