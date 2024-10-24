@@ -90,7 +90,8 @@ function ManageLocation() {
       title: "Action",
       key: "action",
       render: (text, record) => (
-        <>
+        <div style={{ display: 'flex', gap: '10px'}}>
+          <div>
           <Button
             type="primary"
             onClick={() => {
@@ -100,6 +101,8 @@ function ManageLocation() {
           >
             Edit
           </Button>
+          </div>
+          <div>
           <Popconfirm
             title="Delete"
             description="Do you want to delete this location?"
@@ -109,7 +112,8 @@ function ManageLocation() {
               Delete
             </Button>
           </Popconfirm>
-        </>
+          </div>
+        </div>
       ),
     },
   ];

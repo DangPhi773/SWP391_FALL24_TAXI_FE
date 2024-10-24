@@ -60,3 +60,18 @@
   color: #fff;
   margin-right: 10px;
 }
+
+@media (max-width: 991.98px) {
+  .navbar-nav {
+    text-align: center;
+  }
+
+  .right-section {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .navbar-collapse {
+    justify-content: center;
+  }
+}
