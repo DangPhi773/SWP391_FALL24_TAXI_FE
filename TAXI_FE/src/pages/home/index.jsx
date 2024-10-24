@@ -34,8 +34,8 @@ function HomePage() {
   }, []);
 
   return (
-    <div className="homepage-bg"> {/* Added the background image class */}
-      <div className="overlay"> {/* Added the overlay */}
+<div className="homepage-bg"> 
+<div className="overlay">
         <div className="hero-text">
           <h2>Taxis Online Service</h2>
           <h1>Amazing Journey With Share Ride</h1>
