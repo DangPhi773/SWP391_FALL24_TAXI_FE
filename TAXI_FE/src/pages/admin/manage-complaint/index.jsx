@@ -87,7 +87,8 @@ function ManageComplaint() {
       dataIndex: "id",
       key: "action",
       render: (id, record) => (
-        <>
+        <div style={{ display: 'flex', gap: '10px'}}>
+          <div>
           <Button
             type="primary"
             onClick={() => {
@@ -97,6 +98,8 @@ function ManageComplaint() {
           >
             Edit
           </Button>
+          </div>
+          <div>
           <Popconfirm
             title="Delete"
             description="Do you want to delete this complaint?"
@@ -106,7 +109,8 @@ function ManageComplaint() {
               Delete
             </Button>
           </Popconfirm>
-        </>
+          </div>
+        </div>
       ),
     },
   ];

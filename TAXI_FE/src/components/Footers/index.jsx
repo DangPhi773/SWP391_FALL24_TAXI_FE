@@ -28,9 +28,6 @@ function Footer() {
               <a href="/register">Register</a>
             </li>
             <li>
-              <a href="/forgot-password">Forgot Password</a>
-            </li>
-            <li>
               <a href="/">Contact Us</a>
             </li>
           </ul>
