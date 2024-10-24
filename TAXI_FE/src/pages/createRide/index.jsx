@@ -118,10 +118,7 @@ const CreateRide = () => {
       <Container maxWidth="sm" style={{ marginTop: '80px' }}>
         <Box mt={4} mb={4} padding={2} borderRadius={2} boxShadow={3} bgcolor="#fff">
           <Typography 
-            variant="h4" 
-            align="center" 
-            gutterBottom 
-            sx={{ mb: 3 }} // Adjust margin
+            variant="h4" align="center" gutterBottom // Adjust margin
           >
             Create a New Ride
           </Typography>

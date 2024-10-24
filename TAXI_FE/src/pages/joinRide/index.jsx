@@ -96,10 +96,7 @@ const JoinRide = () => {
       <Container className="container" maxWidth="md">
         <Box mt={12} mb={6}>
           <Typography
-            variant="h3" 
-            align="center"
-            className="typography-title"
-            sx={{ fontWeight: 'bold', mt: 5, mb: 3 }} 
+            variant="h4" align="center" gutterBottom 
           >
             Join a Ride
           </Typography>
